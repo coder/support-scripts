@@ -1,8 +1,8 @@
 # !/usr/bin/env bash
 
-#/ NAME:
-#/ teardown.sh - Uninstalls Coder & deletes assocated resources, while keeping the-
-#/ namespace & cluster intact, in order to preserve a possible re-install.
+#/ NAME: teardown.sh - Uninstalls Coder & deletes assocated resources, while keeping the
+#/ namespace & cluster intact, in order to preserve a possible re-install. If you need to
+#/ tear down Coder & its cluster, navigate to https://coder.com/docs/guides/teardown for instructions.
 
 set -euo pipefail
 
