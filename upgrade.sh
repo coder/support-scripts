@@ -6,6 +6,14 @@
 
 set -euo pipefail
 
+echo "Enter namespace:"
+
+read NAMESPACE
+
+echo "Enter version #"
+
+read VERSION
+
 function prerequisites() {
     # check if Coder helm repo is added
     LIST_INPUT=$(helm repo list)
@@ -16,7 +24,7 @@ function prerequisites() {
     fi
 }
 
-function ugrade() {
+function upgrade() {
     # retrieve latest repository information
     helm repo update
 
@@ -31,7 +39,7 @@ function usage() {
 }
 
 # return usage if namespace is blank or version doesn't match the version format.
-if [[ "$NAMESPACE" == "" || "$VERSION" !=~ ^[0-9]\.[0-9]\.[0-9]$ ]]; then
+if [[ "$NAMESPACE" == "" || ! "$VERSION" =~ ^([0-9]\.([1-9]|[1-9][0-9])\.[0-9])$ ]]; then
     usage
 fi
 
