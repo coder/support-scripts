@@ -36,11 +36,12 @@ function upgrade() {
    else
         helm upgrade --namespace $NAMESPACE --force --install --atomic --wait \
         --version $VERSION coder coder/coder
+    fi
 }
 
 function usage() {
-    echo "Usage: set NAMESPACE and VERSION variables before running. VERSION format should follow x.xx.x.
-    Omitting --version will default to the latest version."
+    echo "Usage: set NAMESPACE and VERSION variables before running. 
+    VERSION format should follow x.xx.x. Omitting --version will default to latest."
     exit 1
 }
 
