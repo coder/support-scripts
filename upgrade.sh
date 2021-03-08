@@ -1,8 +1,9 @@
 # !/usr/bin/env bash
 
 # NAME: upgrade.sh - intended for automating Coder's upgrade process, as referenced
-# here: https://coder.com/docs/setup/updating. Requires setting the NAMESPACE & VERSION
-# variables in order to run properly.
+# here: https://coder.com/docs/setup/updating. Requires setting the NAMESPACE variable
+# in order to run properly. The VERSION variable can be omitted. If set, it must follow
+# a specific format (x.x.x or x.xx.x).
 
 set -euo pipefail
 
