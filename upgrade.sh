@@ -25,23 +25,29 @@ function prerequisites() {
 }
 
 function upgrade() {
-    # retrieve latest repository information
+# retrieve latest repository information
     helm repo update
 
-    # upgrade to desired version
-    helm upgrade --namespace $NAMESPACE --force --install --atomic --wait \
-    --version $VERSION coder coder/coder
+# upgrade to desired version - if VERSION doesn't exist, 
+# run upgrade command with VERSION omitted (default to latest).
+   if [ "$VERSION" == "" ]; then
+        helm upgrade --namespace $NAMESPACE --force --install --atomic --wait \
+        coder coder/coder
+   else
+        helm upgrade --namespace $NAMESPACE --force --install --atomic --wait \
+        --version $VERSION coder coder/coder
 }
 
 function usage() {
-    echo "Usage: set NAMESPACE and VERSION variables before running. VERSION format should follow x.xx.x"
+    echo "Usage: set NAMESPACE and VERSION variables before running. VERSION format should follow x.xx.x.
+    Omitting --version will default to the latest version."
     exit 1
 }
 
-# return usage if namespace is blank or version doesn't match the version format.
-if [[ "$NAMESPACE" == "" || ! "$VERSION" =~ ^([0-9]\.([1-9]|[1-9][0-9])\.[0-9])$ ]]; then
-    usage
-fi
+# return usage if NAMESPACE is blank or VERSION doesn't match the correct format.
+    if [[ "$VERSION" != "" && ! "$VERSION" =~ ^([0-9]\.([1-9]|[1-9][0-9])\.[0-9])$ || "$NAMESPACE" == "" ]]; then
+        usage
+    fi
 
 function main() {
     prerequisites
