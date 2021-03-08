@@ -19,7 +19,7 @@ function prerequisites() {
     LIST_INPUT=$(helm repo list)
 
     # if the above doesn't return this value, run helm repo add
-    if [ "$LIST_INPUT" != "NAME URL coder https://helm.coder.com" ]; then
+    if [ "$LIST_INPUT" != *"https://helm.coder.com"* ]; then
         helm repo add coder https://helm.coder.com
     fi
 }
