@@ -21,9 +21,21 @@ function delete_resources() {
     xargs kubectl delete --force --grace-period=0
 }
 
+function usage() {
+    echo "Usage: Please set the NAMESPACE variable to the namespace Coder is deployed in."
+}
+
+# if NAMESPACE variable isn't set, return usage.
+if [[ "$NAMESPACE" == "" ]]; then
+    usage
+fi
+
+kubectl config set-context --current --namespace=$NAMESPACE
+
 function main() {
     uninstall_coder
     delete_resources
+    kubectl delete pvc -l app=timescale --grace-period=0 --force
 }
 
 main
