@@ -42,7 +42,7 @@ function upgrade() {
 
 function usage() {
     echo "Usage: set NAMESPACE and VERSION variables before running. 
-    VERSION format should follow x.xx.x. Omitting --version will default to latest."
+    VERSION format should follow x.xx.x. Omitting VERSION will default to latest."
     exit 1
 }
 
