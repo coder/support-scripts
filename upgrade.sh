@@ -60,6 +60,7 @@ function main() {
     else
         echo "Upgrade failed. Please reference our documentation for troubleshooting
         a failed upgrade https://coder.com/docs/setup/updating#fixing-a-failed-upgrade."
+    fi
 }
 
 main
