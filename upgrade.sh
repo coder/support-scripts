@@ -7,20 +7,11 @@
 
 set -euo pipefail
 
-echo "Enter namespace:"
-
-read NAMESPACE
-
-echo "Enter version #"
-
-read VERSION
-
 function prerequisites() {
-    # check if Coder helm repo is added
-    LIST_INPUT=$(helm repo list)
-
-    # if the above doesn't return this value, run helm repo add
-    if [ "$LIST_INPUT" != *"https://helm.coder.com"* ]; then
+    # check if Coder helm repo is added, if not, add coder helm repo
+    if helm repo list | grep -q "https://helm.coder.com"; then
+       echo "Coder already exists within the current helm config."
+    else
         helm repo add coder https://helm.coder.com
     fi
 }
@@ -53,13 +44,13 @@ function usage() {
 
 function main() {
     prerequisites
-    upgrade
 
-    if [ $? -eq 0 ]; then
+    if upgrade; then
         echo "Upgrade successful."
     else
         echo "Upgrade failed. Please reference our documentation for troubleshooting
-        a failed upgrade https://coder.com/docs/setup/updating#fixing-a-failed-upgrade."
+        a failed upgrade https://coder.com/docs/setup/updating#fixing-a-failed-upgrade. 
+        Alternatively, run ./upgrade.sh --fix to attempt the commands automatically."
     fi
 }
 
