@@ -30,14 +30,25 @@ if [ $# -ne 0 ]; then
 
                 # reinstall to desired version - if VERSION doesn't exist, 
                 # run upgrade command with VERSION omitted (default to latest).
-                if [ "$VERSION" == "" ]; then
-                    helm upgrade --namespace $NAMESPACE --atomic \
-                    --wait --install --force --version $VERSION \
-                    coder coder/coder --values tmp/current-values.yml
+
+                function fix() {
+                    if [ "$VERSION" == "" ]; then
+                        helm upgrade --namespace $NAMESPACE --atomic \
+                        --wait --install --force coder coder/coder \
+                        --values tmp/current-values.yml
+                    else
+                        helm upgrade --namespace $NAMESPACE --atomic \
+                        --wait --install --force --version $VERSION \
+                        coder coder/coder --values tmp/current-values.yml   
+                    fi
+                }
+
+                if fix; then
+                    echo "\n\nUpgrade successful."
                 else
-                    helm upgrade --namespace $NAMESPACE --atomic \
-                    --wait --install --force --version $VERSION \
-                    coder coder/coder --values tmp/current-values.yml   
+                    echo "\n\nUpgrade failed. Please reference our documentation for troubleshooting
+                    a failed upgrade https://coder.com/docs/setup/updating#fixing-a-failed-upgrade. 
+                    If you still run into issues, contact support@coder.com"
                 fi
 
                 exit >&2         
