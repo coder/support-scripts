@@ -22,7 +22,7 @@ if [ $# -ne 0 ]; then
             --fix)
                 echo "Attempting to fix your failed upgrade..."
                 echo "Exporting your helm chart values into a file > tmp/current-values.yml..."
-                mkdir tmp && helm get values --namespace $NAMESPACE coder > tmp/current-values.yml
+                mkdir -p tmp && helm get values --namespace $NAMESPACE coder > tmp/current-values.yml
                 echo "Uninstalling Coder..."
                 helm uninstall --namespace $NAMESPACE coder
                 echo "Waiting for all resources to delete..."
