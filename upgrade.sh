@@ -75,9 +75,9 @@ if [ $# -ne 0 ]; then
                 prerequisites
 
                 if upgrade; then
-                    echo "Upgrade successful."
+                    echo "\n\nUpgrade successful."
                 else
-                    echo "Upgrade failed. Please reference our documentation for troubleshooting
+                    echo "\n\nUpgrade failed. Please reference our documentation for troubleshooting
                     a failed upgrade https://coder.com/docs/setup/updating#fixing-a-failed-upgrade. 
                     Alternatively, run ./upgrade.sh --fix to attempt the commands automatically."
                 fi
