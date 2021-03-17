@@ -27,9 +27,18 @@ if [ $# -ne 0 ]; then
                 helm uninstall --namespace $NAMESPACE coder
                 echo "Waiting for all resources to delete..."
                 sleep 25
-                helm upgrade --namespace $NAMESPACE --atomic \
-                --wait --install --force --version $VERSION \
-                coder coder/coder --values tmp/current-values.yml   
+
+                # reinstall to desired version - if VERSION doesn't exist, 
+                # run upgrade command with VERSION omitted (default to latest).
+                if [ "$VERSION" == "" ]; then
+                    helm upgrade --namespace $NAMESPACE --atomic \
+                    --wait --install --force --version $VERSION \
+                    coder coder/coder --values tmp/current-values.yml
+                else
+                    helm upgrade --namespace $NAMESPACE --atomic \
+                    --wait --install --force --version $VERSION \
+                    coder coder/coder --values tmp/current-values.yml   
+                fi
 
                 exit >&2         
         esac
