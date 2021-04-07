@@ -25,12 +25,18 @@ if [ $# -ne 0 ]; then
                 mkdir -p tmp && helm get values --namespace $NAMESPACE coder > tmp/current-values.yml
                 echo "Uninstalling Coder..."
                 helm uninstall --namespace $NAMESPACE coder
-                echo "Waiting for all resources to delete..."
-                sleep 25
+            # wait for helm uninstall to complete before continuing.
+                pid=$!
+                wait $pid
 
-                # reinstall to desired version - if VERSION doesn't exist, 
-                # run upgrade command with VERSION omitted (default to latest).
+            # if helm uninstall completes successfully, echo success message, and continue with script.
+                if [ $? -eq 0]; then
+                    echo "Uninstall successful"
+                else
+                    echo "Error uninstalling Coder resources"
 
+            # reinstall to desired version - if VERSION doesn't exist, 
+            # run upgrade command with VERSION omitted (default to latest).
                 function fix() {
                     if [ "$VERSION" == "" ]; then
                         helm upgrade --namespace $NAMESPACE --atomic \
@@ -50,11 +56,10 @@ if [ $# -ne 0 ]; then
                     a failed upgrade https://coder.com/docs/setup/updating#fixing-a-failed-upgrade. 
                     If you still run into issues, contact support@coder.com"
                 fi
-
                 exit >&2         
         esac
     done
-    # if flag exists, then do not run the below.
+# if flag exists, then do not run the below.
     else {
         function prerequisites() {
         # check if Coder helm repo is added, if not, add coder helm repo
