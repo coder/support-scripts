@@ -33,9 +33,10 @@ SUB='No resources'
 if [[ "$CHECK" == *"$SUB"* ]]; then
     :
 else
-    echo "GET CHALLENGE & ORDER" >> $FILE
-    k describe challenge -A
-    k describe order -A
+    echo "DESCRIBE CHALLENGE" >> $FILE
+    k describe challenge -A >> $FILE
+    echo "DESCRIBE ORDER" >> $FILE
+    k describe order -A >> $FILE
 fi
 
 
