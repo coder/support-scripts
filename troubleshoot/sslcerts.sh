@@ -3,41 +3,33 @@
 set -euo pipefail
 shopt -s expand_aliases
 
-FILE="coder-output.txt"
 alias k='kubectl'
 
-echo "Enter the namespace your Coder deployment is in:"
+read -p  "Enter the namespace your Coder deployment is in: " NAMESPACE </dev/tty
 
-read NAMESPACE
+main_function(){
+    echo "GET PODS"
 
-echo "---" > $FILE
-echo "GET PODS" >> $FILE
+    k get pods -n $NAMESPACE
 
-k get pods -n $NAMESPACE >> $FILE
+    echo "---"
+    echo "DESCRIBE INGRESS"
 
-echo "---" >> $FILE
-echo "DESCRIBE INGRESS" >> $FILE
+    k describe ingress -n $NAMESPACE
 
-k describe ingress -n $NAMESPACE >> $FILE
+    echo "---"
+    echo "DESCRIBE CHALLENGE"
 
-echo "---" >> $FILE
-echo "GET CERT-MANAGER SECRETS" >> $FILE
+    k describe challenge -A
 
-k get secrets -n cert-manager >> $FILE
+    echo "---"
+    echo "DESCRIBE ORDER"
 
-echo "---" >> $FILE
+    k describe order -A
+}
 
-CHECK=$(k get order,challenge)
-SUB='No resources'
-
-if [[ "$CHECK" == *"$SUB"* ]]; then
-    :
-else
-    echo "DESCRIBE CHALLENGE" >> $FILE
-    k describe challenge -A >> $FILE
-    echo "DESCRIBE ORDER" >> $FILE
-    k describe order -A >> $FILE
-fi
+# log everything, but also output to stdout
+main_function 2>&1 | tee -a output.txt
 
 
 
