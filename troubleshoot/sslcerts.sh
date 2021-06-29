@@ -29,7 +29,7 @@ main_function(){
 }
 
 # log everything, but also output to stdout
-main_function 2>&1 | tee -a output.txt
+main_function 2>&1 | tee -a pod_output.txt
 
 
 

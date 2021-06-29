@@ -22,7 +22,7 @@ k logs deploy/cemanager -n $NAMESPACE
 }
 
 # log everything, but also output to stdout
-main_function 2>&1 | tee -a output.txt
+main_function 2>&1 | tee -a ssl_output.txt
 
 
 
