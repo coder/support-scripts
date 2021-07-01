@@ -8,6 +8,7 @@ alias k='kubectl'
 read -p  "Enter the namespace your Coder deployment is in: " NAMESPACE </dev/tty
 
 main_function(){
+    
     echo "GET PODS"
 
     k get pods -n $NAMESPACE
