@@ -13,11 +13,11 @@ read -p "Select the pod you'd like to debug: " POD </dev/tty
 
 main_function(){
 
-echo "Getting $POD logs..."
+    echo "Getting $POD logs..."
 
-k logs $POD -n $NAMESPACE
+    k logs $POD -n $NAMESPACE
 
-k logs deploy/cemanager -n $NAMESPACE
+    k logs deploy/cemanager -n $NAMESPACE
 
 }
 
